@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Pei-Zhi, Wan'
 __version__ = '0.1'
-__release__ = '9b'
+__release__ = '9.1b'
 
 from datetime import datetime
 ndt = datetime.now()
 
-__startdt__ = ndt.strftime("%a, %b %B, %Y at %X")
+__startdt__ = ndt.strftime("%a, %d %b, %Y at %X")
 
 import sys,os,re
 
