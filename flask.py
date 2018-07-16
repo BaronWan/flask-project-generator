@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Pei-Zhi, Wan'
 __version__ = '0.1'
-__release__ = '1b'
+__release__ = '9b'
 
 from datetime import datetime
 ndt = datetime.now()
@@ -10,7 +10,10 @@ __startdt__ = ndt.strftime("%a, %b %B, %Y at %X")
 
 import sys,os,re
 
-samplefiles = {
+class foo:
+    def __init__(self, project):
+        self.project = project     
+        self.samplefiles = {
     "__init__.py": """from flask import Flask
 from config import Config
 
@@ -22,45 +25,55 @@ from apps import routes
 
     "routes.py": """from flask import render_template, request, url_for
 from apps import app
-form datetime import datetime
+from datetime import datetime
+import re
 
 @app.route('/')
-@app.route('/index/', method=['GET','POST'])
+@app.route('/index/', methods=['GET','POST'])
 def index():
-    user = {'username': 'Douglas'}
+    user = {{'username': 'Douglas'}}
     return render_template('index.html',
         title="Index",
+        project="{project}",
         user=user
         )
 
-@app.route('/sample/<name>', method=['GET'])
-def sample():
-
+@app.route('/sample/<name>', methods=['GET','POST'])
+def sample(name):
     regex = re.compile("[a-zA-Z]")
-    data = {
-        'name': name if regex.match(name) is not None else "visitor",
-        'ndt': datetime.now().strftime("%a, %b %B, %Y at %X")
-        }
+    data = {{
+        'name': name,
+        'ndt': datetime.now().strftime('%a, %d %b, %Y at %X')
+    }}
 
     return render_template('sample.html', 
         title="Sample",
+        project="{project}",
         data=data)
 """,
 
-    'default.css': "",
+    'default.css': """div {
+    font-size: 24pt;
+    color: #253745;
+}
+a {
+    font-size: 16pt,
+}
+""",
 
     'base.html': """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <link rel='stylesheet' href="{{ url_for('static', filename='default.css') }}">
     {% if title %}
-    <title>{{ title }} - {project}</title>
+    <title>{{ title }} - {{ project }}</title>
     {% else %}
-    <title> {project} of -X- </title>
+    <title> {{ project }} of -X- </title>
     {% endif %}
 </head>
 <body>
-    <div> {project}: <a href="{{ url_for('index') }}">Index</a>| 
-        <a href="{{ url_for('sample') }}">Sample</a></div>
+    <div><b> {{ project }} </b> : <a href="{{ url_for('index') }}">Index</a> | 
+        <a href="{{ url_for('sample', name='Visitor') }}">Sample</a></div>
     <hr/>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -75,14 +88,14 @@ def sample():
 
     'index.html': """{% extends "base.html" %}
 {% block content %}
-    <h3>Hi, my friend. {{ user.username }}</h3>
+    <h1>Hi, my friend. {{ user.username }}</h1>
     <div> This is a test page. </div>
 {% endblock %}
 """,
 
     'sample.html': """{% extends "base.html" %}
 {% block content %}
-    <h3>Welcome in my sample page, {{ data.name }}. now is {{ data.ndt }}</h3>
+    <div>Welcome in my sample page, <b>{{ data.name }}</b>.</div><h3> Current time is [ {{ data.ndt }} ]</h3>
 {% endblock %}
 """,
 
@@ -95,10 +108,10 @@ class Config(object):
 app.run(host='127.0.0.1', port=10080, debug=True)
 """}
 
-makeprj = {"apps": {
+        self.makeprj = {"apps": {
             'attr': 'dir',
             'sub': {
-                'template': {
+                'templates': {
                     'attr': 'dir',
                     'sub': {
                         'base.html': {'attr': 'file'},
@@ -121,40 +134,41 @@ makeprj = {"apps": {
     }
 
 
-def CreateProject(data, dirs):
-#    print ('layer=%d\r\n%s' %(layer,data))
-    if 'olddir' not in locals():
-        olddir = dirs
-
-    for k,v in data.iteritems():
-        if v['attr'] == 'file':
-            print ('Get a FILE: "%s" in "%s"' %(k, olddir))
-            if k in samplefiles.keys():
-                try:
-                    with open('%s/%s' %(olddir,k), 'w+') as fp:
-                        fp.write(samplefiles[k])
-                except Exception as e:
-                    print ('Create a file: %s in %s failure!' %(k,olddir))
-                    sys.stdout.errors(e)
-                    return False
-            
-            continue
-
-        if v['attr'] == 'dir':
+    def CreateProject(self, data, dirs):
+        if 'olddir' not in locals():
             olddir = dirs
-            newdirs = olddir +'/'+ k
-            if os.path.isdir(newdirs) is False:
-                print ('Will be create a Directory: %s' %(newdirs))
-                try:                    
-                    os.makedirs(newdirs)
-                except Exception as e:
-                    print ('make a directory: %s is fail!' %(newdirs))
-                    sys.stdout.errors(e)
-                    return False
-            
-            items = CreateProject(v['sub'], newdirs)
-            if items is not None:
-                return items
+
+        for k,v in data.iteritems():
+            if v['attr'] == 'file':
+                print ('Get a FILE: "%s" in "%s"' %(k, olddir))
+                if k in self.samplefiles.keys():
+                #    if k=='routes.py':
+                #        print (self.samplefiles[k].format(project=self.project))
+                    try:
+                        with open('%s/%s' %(olddir,k), 'w+') as fp:
+                            fp.write(self.samplefiles[k].format(project=self.project) if k=='routes.py' else self.samplefiles[k])
+                    except Exception as e:
+                        print ('Create a file: %s in %s failure!' %(k,olddir))
+                        sys.stdout.errors(e)
+                        return False
+                
+                continue
+
+            if v['attr'] == 'dir':
+                olddir = dirs
+                newdirs = olddir +'/'+ k
+                if os.path.isdir(newdirs) is False:
+                    print ('Will be create a Directory: %s' %(newdirs))
+                    try:                    
+                        os.makedirs(newdirs)
+                    except Exception as e:
+                        print ('make a directory: %s is fail!' %(newdirs))
+                        sys.stdout.errors(e)
+                        return False
+                
+                items = self.CreateProject(v['sub'], newdirs)
+                if items is not None:
+                    return items
 
     
 def OptionParser(args):
@@ -174,24 +188,13 @@ if __name__ == '__main__':
     optpsr = OptionParser(sys.argv[1:])
   
     if optpsr.project is not None:
-        print (optpsr.project)
-        if os.path.isdir(optpsr.project):
-        #    sys.exit(0)
-        # else:
-            if os.path.isdir(optpsr.project) is False:
-                os.makedirs(optpsr.project)
+        ox = foo(optpsr.project)
         
-            olddir = os.getcwd()
-            try: 
-               # os.chdir(optpsr.project)
-                dirs = optpsr.project
-            except Exception as e:
-                sys.stdout.errors(e)
-                sys.exit(-1)
-
-            print ('current-path: %s' %(os.getcwd()))
-            res = CreateProject(makeprj,dirs)
-            print (res)
-
-          #  os.chdir(olddir)
+        if os.path.isdir(optpsr.project) is False:
+            os.makedirs(optpsr.project)
+                
+        print ('current-path: %s' %(os.getcwd()))
+        res = ox.CreateProject(ox.makeprj, optpsr.project)
+        print (res)
+        
     print ("Today is %s." %(__startdt__))

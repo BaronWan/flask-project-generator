@@ -1,7 +1,7 @@
 # flask project generator  
   > Author : Pei-Zhi, Wan  
-  > Version : 0.1.1b  
-  > Last update time : Sun, 16 Jul, 2018 at 00:30  
+  > Version : 0.1.9b  
+  > Last update time : Mon, 16 Jul, 2018 at 17:00  
 
 ## Description  
   > For the flask, write a sample framework for generating a project.  
