@@ -1,6 +1,6 @@
 # flask project generator  
   > Author : Wan, Pei-Zhi   
-  > Version : 0.1.9.1b  
+  > Version : 0.1.9.2b  
   > Last update time : Mon, 16 Jul, 2018 at 17:00  
 
 ## Description  
