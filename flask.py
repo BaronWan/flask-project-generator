@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Pei-Zhi, Wan'
+__author__ = 'Wan, Pei-Zhi'
 __version__ = '0.1'
-__release__ = '9.1b'
+__release__ = '9.2b'
 
 from datetime import datetime
 ndt = datetime.now()
@@ -9,6 +9,7 @@ ndt = datetime.now()
 __startdt__ = ndt.strftime("%a, %d %b, %Y at %X")
 
 import sys,os,re
+__pyVer__ = sys.version.split(' ')[0].split('.')[:-1]
 
 class foo:
     def __init__(self, project):
@@ -138,7 +139,12 @@ app.run(host='127.0.0.1', port=10080, debug=True)
         if 'olddir' not in locals():
             olddir = dirs
 
-        for k,v in data.iteritems():
+        if __pyVer__[0] == '2':
+                ITEM = data.iteritems()
+        elif __pyVer__[0] == '3':
+                ITEM = data.items()
+
+        for k,v in ITEM:
             if v['attr'] == 'file':
                 print ('Get a FILE: "%s" in "%s"' %(k, olddir))
                 if k in self.samplefiles.keys():
