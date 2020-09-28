@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Wan, Pei-Zhi'
+__author__ = 'Wan Pei Chih'
 __version__ = '0.1'
 __release__ = '9.2b'
 
