@@ -1,5 +1,5 @@
 # flask project generator  
-  > Author : Wan, Pei-Zhi   
+  > @Author : Wan Pei Chih   
   > Version : 0.1.9.2b  
   > Last update time : Mon, 16 Jul, 2018 at 17:00  
 
