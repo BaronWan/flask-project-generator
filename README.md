@@ -1,13 +1,14 @@
 # flask project generator  
   > @Author : Wan Pei Chih   
-  > Version : 0.1.9.2b  
-  > Last update time : Mon, 16 Jul, 2018 at 17:00  
+  > Version and tag : v0.1.9.2r (version:0.1, release:9.2)
+  > Last update time : Thu, 1 Oct, 2020 at 17:20
 
 ## Description  
   > For the flask, write a sample framework for generating a project.  
 
 ## Support python version
 - python 2.7
+- python 3
 
 ## Structure  
 - <*project*>  
@@ -25,3 +26,4 @@
 
 ## Implementation  
     python.exe flask.py -h 
+
