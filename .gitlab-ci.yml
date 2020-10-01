@@ -28,16 +28,17 @@ pytest-base:
     stage: Test
     script:
         - python3 src/flask.py -p test01
+        - | \
+          [ -d test01 ]&& echo True || echo False; \
+          [ -f test01/run.py ]&& echo True || echo False; \
+          [ -f test01/config.py ]&& echo True || echo False; \
+          [ -f test01/apps/__init__.py ]&& echo True || echo False; \
+          [ -f test01/apps/routes.py ]&& echo True || echo False; \
+          [ -f test01/apps/static/default.css ]&& echo True || echo False; \
+          [ -f test01/apps/templates/base.html ]&& echo True || echo False; \
+          [ -f test01/apps/templates/index.html ]&& echo True || echo False; \
+          [ -f test01/apps/templates/sample.html ]&& echo True || echo False
         - cp -rv tests test01/
-        - [ -d test01 ]&& True || False
-        - [ -f test01/run.py ]&& True || False
-        - [ -f test01/config.py ]&& True || False
-        - [ -f test01/apps/__init__.py ]&& True || False
-        - [ -f test01/apps/routes.py ]&& True || False
-        - [ -f test01/apps/static/default.css ]&& True || False
-        - [ -f test01/apps/templates/base.html ]&& True || False
-        - [ -f test01/apps/templates/index.html ]&& True || False
-        - [ -f test01/apps/templates/sample.html ]&& True || False
 
 pytest-app-base-unit-testing:
     stage: Test
