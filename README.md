@@ -1,6 +1,6 @@
 # flask project generator  
   > @Author : Wan Pei Chih   
-  > Version and tag : v0.1.9.2r (version:0.1, release:9.2)
+  > Version and tag : v0.1.9.2r (version:0.1, release:9.2)  
   > Last update time : Thu, 1 Oct, 2020 at 17:20
 
 ## Description  
