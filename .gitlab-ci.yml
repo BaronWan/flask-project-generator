@@ -40,18 +40,18 @@ pylint:
 pytest-base:
     stage: Test
     script:
-        - >  
-          python3 src/flask.py -p test01
-          [ -d test01 ] && true || false
-          [ -f test01/run.py ] && true || false
-          [ -f test01/config.py ] && true || false
-          [ -f test01/apps/__init__.py ] && true || false
-          [ -f test01/apps/routes.py ] && true || false
-          [ -f test01/apps/static/default.css ] && true || false
-          [ -f test01/apps/templates/base.html ] && true || false
-          [ -f test01/apps/templates/index.html ] && true || false
-          [ -f test01/apps/templates/sample.html ] && true || false
-          cp -rv tests test01/
+        - |   
+            python3 src/flask.py -p test01; \
+            [ -d test01 ] && true || false; \
+            [ -f test01/run.py ] && true || false; \
+            [ -f test01/config.py ] && true || false; \
+            [ -f test01/apps/__init__.py ] && true || false; \
+            [ -f test01/apps/routes.py ] && true || false; \
+            [ -f test01/apps/static/default.css ] && true || false; \
+            [ -f test01/apps/templates/base.html ] && true || false; \
+            [ -f test01/apps/templates/index.html ] && true || false; \
+            [ -f test01/apps/templates/sample.html ] && true || false; \
+            cp -rv tests test01/
 
 pytest-app-base-unit-testing:
     stage: Test
@@ -66,13 +66,13 @@ trigger_build:
 LinuxDeploy:
     stage: Deploy
     script:
-        - >  
-          nuitka3 --run --standalone \
-            --remove-output \
-            --output-dir=src/ \
-            --show-progress \
-            src/flask.py
-         tar -acv --directory=src flask.dist -f out.tgz
+        - |  
+            nuitka3 --run --standalone \
+              --remove-output \
+              --output-dir=src/ \
+              --show-progress \
+              src/flask.py; \
+            tar -acv --directory=src flask.dist -f out.tgz
     tags:
         - deployLinux
     artifacts:
