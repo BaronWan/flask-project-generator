@@ -41,18 +41,19 @@ UnitTest:
     stage: Test
     script:
         - |   
-            python3 src/flask.py -p test01; \
-            [ -d test01 ] && true || false; \
-            [ -f test01/run.py ] && true || false; \
-            [ -f test01/config.py ] && true || false; \
-            [ -f test01/apps/__init__.py ] && true || false; \
-            [ -f test01/apps/routes.py ] && true || false; \
-            [ -f test01/apps/static/default.css ] && true || false; \
-            [ -f test01/apps/templates/base.html ] && true || false; \
-            [ -f test01/apps/templates/index.html ] && true || false; \
-            [ -f test01/apps/templates/sample.html ] && true || false; \
+            python3 src/flask.py -p test01
+            [ -d test01 ] && true || false
+            [ -f test01/run.py ] && true || false
+            [ -f test01/config.py ] && true || false
+            [ -f test01/apps/__init__.py ] && true || false
+            [ -f test01/apps/routes.py ] && true || false
+            [ -f test01/apps/static/default.css ] && true || false
+            [ -f test01/apps/templates/base.html ] && true || false
+            [ -f test01/apps/templates/index.html ] && true || false
+            [ -f test01/apps/templates/sample.html ] && true || false
             cp -rv tests test01/
             cd test01/
+            pip install flask
             pytest -v
 
 Trigger_build:
