@@ -37,7 +37,7 @@ pylint:
         - pylint --generate-rcfile > .pylintrc
         - pylint --rcfile=.pylintrc --confidence=INFERENCE_FAILURE src/
 
-pytest-base:
+UnitTest:
     stage: Test
     script:
         - |   
@@ -52,13 +52,10 @@ pytest-base:
             [ -f test01/apps/templates/index.html ] && true || false; \
             [ -f test01/apps/templates/sample.html ] && true || false; \
             cp -rv tests test01/
+            cd test01/
+            pytest -v
 
-pytest-app-base-unit-testing:
-    stage: Test
-    script:
-        - cd test01/; pytest -v
-
-trigger_build:
+Trigger_build:
     stage: Deploy
     script:
         - "curl -X POST -F token=$TRIGGER_TOKEN -F ref=REF_NAME https://gitlab.com/api/v4/projects/21472626/trigger/pipeline"
