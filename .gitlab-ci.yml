@@ -1,6 +1,7 @@
 import: python:latest
 variables:
     PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+    TRIGGER_TOKEN: dc021b6d66845a124e8a7a1e2176c0
 
 cache:
     paths:
@@ -48,6 +49,11 @@ pytest-app-base-unit-testing:
     stage: Test
     script:
         - cd test01/; pytest -v
+
+trigger_build:
+    stage: Deploy
+    script:
+        - "curl -X POST -F token=$TRIGGER_TOKEN -F ref=REF_NAME https://gitlab.com/api/v4/projects/21472626/trigger/pipeline"
 
 LinuxDeploy:
     stage: Deploy
