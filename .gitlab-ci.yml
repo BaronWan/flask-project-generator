@@ -7,7 +7,8 @@ image: python:latest
 # only cache local items.
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  TRIGGER_TOKEN: dc021b6d66845a124e8a7a1e2176c0
+  DOCKER_HOST: "tcp://localhost:2375"
+  TRIGGER_TOKEN: "dc021b6d66845a124e8a7a1e2176c0"
 
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/reference/pip_install/#caching
@@ -65,12 +66,8 @@ Trigger_build:
 LinuxDeploy:
     stage: Deploy
     script:
-        - |  
-            nuitka3 --run --standalone \
-              --remove-output \
-              --output-dir=src/ \
-              --show-progress \
-              src/flask.py; \
+        - | 
+            nuitka3 --run --standalone --remove-output --output-dir=src/ --show-progress src/flask.py
             tar -acv --directory=src flask.dist -f out.tgz
     tags:
         - dep
