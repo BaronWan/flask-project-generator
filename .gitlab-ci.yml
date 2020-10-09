@@ -66,12 +66,12 @@ Trigger_build:
 LinuxDeploy:
     stage: Deploy
     script:
-        - |  
+        - >  
             nuitka3 --run --standalone \
               --remove-output \
-              --output-dir=src/ \
+              --output-dir=src/ \ 
               --show-progress \
-              src/flask.py; \
+              src/flask.py
             tar -acv --directory=src flask.dist -f out.tgz
     tags:
         - dep
