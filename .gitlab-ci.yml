@@ -1,7 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:latest
+image: python:3.6
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -66,9 +66,8 @@ Trigger_build:
 LinuxDeploy:
     stage: Deploy
     script:
-        - | 
-            nuitka3 --run --standalone --remove-output --output-dir=src/ --show-progress src/flask.py
-            tar -acv --directory=src flask.dist -f out.tgz
+        - nuitka3 --run --standalone --remove-output --output-dir=src/ --show-progress src/flask.py
+        - tar -acv --directory=src flask.dist -f out.tgz
     tags:
         - dep
     only:
